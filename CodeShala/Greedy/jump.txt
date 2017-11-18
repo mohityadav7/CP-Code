@@ -1,0 +1,97 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+bool dp[100000];
+
+bool canReach(int a[], int i, int n){
+    cout<<"\ni="<<i<<endl;
+    if(i==n)
+        return true;
+    int zeroCount=0;
+    for(int j=i+1; j<i+a[i]+1 && j<n; j++){
+        cout<<"j="<<j<<endl;
+        //cout<<"j="<<j<<" k="<<(i+a[i])<<endl;
+        if(a[j]==0){
+            ++zeroCount;
+            cout<<"zeroCount="<<zeroCount<<endl;
+            //cout<<"count="<<zeroCount<<endl;
+            if(zeroCount == a[i]){
+                cout<<"returning false"<<endl;
+                return false;
+            }
+        }
+        else{
+            cout<<"in else "<<dp[j]<<endl;
+            if(dp[j]){
+                cout<<"finding ad[j]"<<endl;
+                dp[j] = canReach(a,j,n);
+                cout<<"dp["<<j<<"]="<<dp[j]<<endl;
+            }
+            /*
+            cout<<"returning "<<dp[j]<<endl;
+            return dp[j];
+            */
+        }
+    }
+    if(dp[i] == true){
+        cout<<"in last if"<<endl;
+        return true;
+    }
+}
+
+int main(){
+    int n;
+    cin>>n;
+    int a[n];
+    for(int i=0; i<n; i++)
+        cin>>a[i];
+    
+    for(int i=0; i<n; i++){
+        dp[i] = true;
+    }
+    
+    /*
+    if(n==0 || n==1){
+        cout<<"YES";
+        return 0;
+    }
+    
+    if(n>0){
+        for(int i=0; i<n; i++){
+            //cout<<"\ni="<<i<<endl;
+            int zeroCount = 0;
+            for(int j=i+1; j<i+a[i]+1 && j<n; j++){
+                //cout<<"j="<<j<<" k="<<(i+a[i])<<endl;
+                if(a[j]==0){
+                    ++zeroCount;
+                    //cout<<"count="<<zeroCount<<endl;
+                    if(zeroCount == a[i]){
+                        cout<<"NO";
+                        flg=1;
+                        break;
+                    }
+                }
+                else
+                    break;
+            }
+            if(flg)
+                break;
+        }
+    }
+    if(flg==0){
+        for(int i=0; i<n; i++){
+            if(a[i] >= (n-i-1)){
+                cout<<"i="<<i<<" "<<a[i]<<" "<<(n-i-1)<<endl;
+                cout<<"YES";
+                flg=1;
+                break;
+            }
+        }
+    }
+    if(flg==0)
+        cout<<"NO";
+    */
+    cout<<(canReach(a,0,n)?"YES":"NO");
+    
+    return 0;
+}
